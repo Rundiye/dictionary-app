@@ -11,7 +11,7 @@ class DictionaryList extends Component {
   getAllDictionaries = () => {
     axios.get(`http://localhost:5000/api/dictionaries`).then(response => {
       console.log('response.data', response.data);
-      this.props.addAllDictionariess(response.data);
+      this.props.addAllDictionaries(response.data);
     });
   };
 
@@ -24,7 +24,7 @@ class DictionaryList extends Component {
 
     return (
       <div>
-        <AddDictionary updateDictionaryList={this.getAllDictionaris} />
+        <AddDictionary updateDictionaryList={this.getAllDictionaries} />
         <div>
           {dictionaries &&
             dictionaries.map(dictionary => {
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addAllDictionaries: allDictionaries =>
-      dispatch(actions.addAllDictionaris(allDictionaries)),
+      dispatch(actions.addAllDictionaries(allDictionaries)),
   };
 };
 
