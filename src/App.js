@@ -2,30 +2,32 @@ import React, { Component } from 'react';
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
 
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/Dashboard';
 import Dictionary from './components/dictionaries/Dictionary';
 import DictionaryInputList from './components/dictionaries/DictionaryInputList';
+import Navbar from './components/navbar/Navbar';
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <div className="App">
+        <Navbar />
         <Switch>
-          <Route 
-            exact 
-            path="/" 
+          <Route
+            exact
+            path="/"
             component={Dashboard}
           />
-          <Route 
-            exact 
-            path="/dictionary/:id" 
-            component={Dictionary} 
+          <Route
+            exact
+            path="/dictionary/:id"
+            component={Dictionary}
           />
-          <Route 
-            exact 
-            path="/dictionary/:id//:taskId" 
-            component={DictionaryInputList} 
-          /> 
+          <Route
+            exact
+            path="/dictionary/:id/:taskId"
+            component={DictionaryInputList}
+          />
         </Switch>
       </div>
     );
