@@ -126,7 +126,6 @@ Input model
 
 ### Git
 
-The url to your repository and to your deployed project
 
 [Client repository Link](https://github.com/Rundiye/dictionary-app)
 
