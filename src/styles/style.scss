@@ -1,0 +1,82 @@
+@mixin listStyle ($color, $size) {
+  text-decoration: none;
+  list-style: none;
+  color: $color;
+  font-size: $size;
+}
+
+@mixin resetSpace {
+  padding: 0;
+  margin: 0;
+}
+
+@mixin flexCenter($justify, $direction) {
+  display: flex;
+  justify-content: $justify;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+body {
+  @include resetSpace();
+}
+
+.navbar {
+  @include resetSpace();
+  @include flexCenter(center, row);
+  background: lightblue;
+  height: 100px;
+  li {
+    @include listStyle(white, 28px);
+    a {
+      @extend li;
+
+    }
+  }
+}
+
+.dictionary-div {
+  @include flexCenter(center, row);
+  padding: 50px 0;
+  .dictionary-list {
+    @include flexCenter(space-between, row);
+    li {
+      @include listStyle(black, 18px );
+    }
+    a {
+      @extend li;
+      color: darkcyan;
+    }
+  }
+}
+
+.details-div {
+  @include flexCenter(space-evenly, row);
+  padding: 50px 0;
+}
+
+.input-box {
+  border: 1px slategrey solid;
+  margin: 0 20%;
+}
+
+form input {
+  font-size: 16px;
+  padding: 5px 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+form input.error {
+  border-color: red;
+}
+
+form button:hover {
+  background-color: pink;
+}
+
+form button:disabled {
+  background-color: white;
+  color: #333;
+}

@@ -1,12 +1,15 @@
 import React from 'react';
-
-import DictionaryList from '../dictionaries/DictionaryList';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="nav-style">
+    <nav className="navbar">
       <ul>
-        <DictionaryList />
+        <li>
+          <Link to='/dictionaries'>
+            Dictionaries
+          </Link>
+        </li>
       </ul>
     </nav>
   );

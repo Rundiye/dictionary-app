@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import './styles/style.css';
 import { Switch, Route } from 'react-router-dom';
-
-import Dashboard from './pages/Dashboard';
-import Dictionary from './components/dictionaries/Dictionary';
-import DictionaryInputList from './components/dictionaries/DictionaryInputList';
+import DictionaryDetails from './components/dictionaries/DictionaryDetails';
+import DictionaryList from './components/dictionaries/DictionaryList';
 import Navbar from './components/navbar/Navbar';
 
 class App extends Component {
@@ -15,18 +14,13 @@ class App extends Component {
         <Switch>
           <Route
             exact
-            path="/"
-            component={Dashboard}
+            path="/dictionaries"
+            component={DictionaryList}
           />
           <Route
             exact
-            path="/dictionary/:id"
-            component={Dictionary}
-          />
-          <Route
-            exact
-            path="/dictionary/:id/:taskId"
-            component={DictionaryInputList}
+            path="/dictionaries/:id"
+            component={DictionaryDetails}
           />
         </Switch>
       </div>
