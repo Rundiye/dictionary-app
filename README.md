@@ -1,8 +1,24 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Dictionary Management Application
 
-## Available Scripts
+<br>
 
-In the project directory, you can run:
+## Description
+
+Dictionary Management Application is used to manage dictionaries (a key/value mapping or something also called a synonim table).
+
+### Setup
+
+- Fork and clone this repository. [client-side](https://github.com/Rundiye/dictionary-app)
+- Run the following commands:
+```
+cd dictionary-app
+npm install
+npm start
+```
+
+- Fork and clone [the server](https://github.com/Rundiye/dictionary-api) repository.
+The data will be saved in the local Database (MongoDB).
+
 
 ### `npm start`
 
@@ -12,57 +28,112 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm test`
+### Requirements
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The application must satisfy the following requirements: 
+- Creating and deleting dictionaries 
+- Showing available dictionaries in an overview 
+- Editing dictionaries (adding, updating and removing rows) 
+- Validating the entire dictionary regarding consistency
+- Validations should be shown as some kind of problem markers next to the offending part of the dictionary. 
+- Problem markers have different severities, e.g. a Duplicate Domains/Ranges problem is less severe than a Cycle (in which case you cannot go on processing such a dictionary).
 
-### `npm run build`
+### User stories
+- **Create Dictionary** As a user I want to create a new dictionary and save it in the database.
+- **List of Dictionaries** As a user I want to see all my dictionaries in a list.
+- **Delete Dictionary** As a user I want to delete a dictionary from the list when I don't want it anymore.
+- **Edit Dictionary** As a user I want to edit a dictionary's name.
+- **Create Inputs** As a user I want to create a new dictionary input with `domain` and `range` values and save it in the database.
+- **List of Inputs** As a user I want to see all the inputs of a dictionary in a list.
+- **Delete Input** As a user I want to delete an input from the list when I don't want it anymore.
+- **Edit Input** As a user I want to edit an input's domain or range value.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br>
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Client / Frontend
 
-### `npm run eject`
+## Routes (React App)
+| Path                        | Component            | Permissions | Behavior                                                      |
+| --------------------------- | -------------------- | ----------- | ------------------------------------------------------------- |
+| `/`                         | Navbar           | public      | Home page                                                     |
+| `/dictionaries`              | DictionaryList, AddDictionary          | public  | List of Dictionaries, link to a single dictionary, add dictionary |
+| `/dictionaries/:id`               | DictionaryDetails, EditDictionary, AddDictionaryInput            | public  | Edit and delete dictionary, add, delete and edit inputs |
+| 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Components
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- AddDictionary
+- Dictionary
+- DictionaryDetails
+- DictionaryList
+- EditDictionary
+- AddDictionaryInput
+- EditDictionaryInput
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+<br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Server / Backend
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Models
 
-### Analyzing the Bundle Size
+Dictionary model
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+```javascript
+{
+  itle: String,
+  description: String,
+  inputs: [{ type: Schema.Types.ObjectId, ref: 'Input' }]
+}
+```
 
-### Making a Progressive Web App
+Input model
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```javascript
+{
+  domain: String,
+  range: String,
+  dictionary: { type: Schema.Types.ObjectId, ref: 'Dictionary' }
+}
+```
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
+<br>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `npm run build` fails to minify
+## API Endpoints (backend routes)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+| HTTP Method | URL                           | Request Body                 | Success status | Error Status | Description                                                  |
+| ----------- | ---------------------------------- | ----------------------- | -------------- | ------------ | ------------------------------------------------------------ |
+| GET         | `/dictionaries   `                | {}           | 200            | 404          | Show all dictionaries           |
+| POST        | `//dictionaries`                     | {title} | 201            | 404          | Create and save new dictionary |
+| GET        | `/dictionaries/:id`                      | {id}    | 200            | 401          | Show a specific dictionary |
+| PUT        | `/dictionaries/:id`                     | {id}                 | 204            | 400          | Edit a specific dictionary                                            |
+| DELETE         | `/dictionaries/:id`                            |      {id}                   |                | 400          | Delete a specific dictionary                                        |
+| GET         | `/dictionaries/:dictionaryId/inputs/:inputId`                          |             {id}            |                | 400          | Get a specific input                                        |
+| POST        | `/inputs`                | {domain, range}                      | 201            | 400          | Create and save a new input                             |
+| PUT         | `/api/inputs/:id`                      | {id}                    |                |              | Edit a specific input                                     |
+| DELETE        | `/api/inputs/:id`          | {id}                      | 201            | 400          | Delete a specific input                             |
+                              
+
+
+<br>
+
+### Git
+
+The url to your repository and to your deployed project
+
+[Client repository Link](https://github.com/Rundiye/dictionary-app)
+
+[Server repository Link](https://github.com/Rundiye/dictionary-api)
+
+
+
+
+
+
